@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Women Safety Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        header h1 {
+            font-size: 22px;
+            letter-spacing: 0.3px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #991b1b;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1150px;
+            margin: 30px auto;
+        }
+
+        /* =========================
+           WELCOME
+        ========================= */
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 29px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .welcome p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* =========================
+           COMMON CARD
+        ========================= */
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+            border: 1px solid #eef0f4;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #991b1b;
+            font-size: 21px;
+        }
+
+        /* =========================
+           PROFILE
+        ========================= */
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .profile-label {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .profile-value {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #111827;
+            word-break: break-word;
+        }
+
+        #profileMessage {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           SOS SECTION
+        ========================= */
+
+        .sos-section {
+            text-align: center;
+            background: linear-gradient(
+                135deg,
+                #fff7f7,
+                #ffffff
+            );
+            border: 1px solid #fecaca;
+        }
+
+        .sos-section h2 {
+            color: #b91c1c;
+        }
+
+        .sos-description {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .sos-button-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .sos-btn {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            border: 8px solid #fee2e2;
+            background: #dc2626;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow:
+                0 0 0 8px #fff1f2,
+                0 10px 30px rgba(220, 38, 38, 0.35);
+            transition: 0.25s;
+        }
+
+        .sos-btn:hover {
+            background: #b91c1c;
+            transform: scale(1.04);
+        }
+
+        .sos-btn:active {
+            transform: scale(0.98);
+        }
+
+        #sosMessage {
+            margin-top: 25px;
+            min-height: 22px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .history-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .alert {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-left: 5px solid #9ca3af;
+            border-radius: 12px;
+            padding: 20px;
+            transition: 0.2s;
+        }
+
+        .alert:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            transform: translateY(-2px);
+        }
+
+        .alert.active-alert {
+            border-left-color: #dc2626;
+        }
+
+        .alert.accepted-alert {
+            border-left-color: #16a34a;
+        }
+
+        .alert.declined-alert {
+            border-left-color: #f59e0b;
+        }
+
+        .alert.resolved-alert {
+            border-left-color: #2563eb;
+        }
+
+        .alert-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .alert-title h3 {
+            font-size: 16px;
+            color: #374151;
+        }
+
+        .alert p {
+            margin: 8px 0;
+            line-height: 1.5;
+            color: #4b5563;
+            word-break: break-word;
+        }
+
+        .alert p strong {
+            color: #111827;
+        }
+
+        /* =========================
+           STATUS BADGES
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .active {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .accepted {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .declined {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .resolved {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-row {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .map-btn,
+        .resolve-btn {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .map-btn {
+            background: #2563eb;
+        }
+
+        .map-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .resolve-btn {
+            background: #16a34a;
+        }
+
+        .resolve-btn:hover {
+            background: #15803d;
+        }
+
+        /* =========================
+           EMPTY / ERROR
+        ========================= */
+
+        .empty {
+            color: #6b7280;
+            text-align: center;
+            padding: 25px;
+            grid-column: 1 / -1;
+        }
+
+        .error {
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .history-container {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h2 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px 18px;
+            }
+
+            header h1 {
+                font-size: 18px;
+            }
+
+            .logout-btn {
+                padding: 8px 13px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 20px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .sos-btn {
+                width: 150px;
+                height: 150px;
+                font-size: 19px;
+            }
+
+            .alert-title {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .map-btn,
+            .resolve-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <h1>
+            🛡️ Women Safety Dashboard
+        </h1>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </header>
+
+
+    <div class="container">
+
+        <!-- =========================
+             WELCOME
+        ========================= -->
+
+        <div class="welcome">
+
+            <h2>
+                Welcome to your Emergency Assistance Dashboard
+            </h2>
+
+            <p>
+                Stay safe. Help is just one SOS away.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             PROFILE
+        ========================= -->
+
+        <div class="card profile">
+
+            <h2>
+                👤 My Profile
+            </h2>
+
+            <div class="profile-grid">
+
+                <div class="profile-item">
+
+                    <span class="profile-label">
+                        Name
+                    </span>
+
+                    <span
+                        id="userName"
+                        class="profile-value">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <span class="profile-label">
+                        Email
+                    </span>
+
+                    <span
+                        id="userEmail"
+                        class="profile-value">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <span class="profile-label">
+                        Phone
+                    </span>
+
+                    <span
+                        id="userPhone"
+                        class="profile-value">
+                        Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+            <p id="profileMessage"></p>
+
+        </div>
+
+
+        <!-- =========================
+             SOS
+        ========================= -->
+
+        <div class="card sos-section">
+
+            <h2>
+                🚨 Emergency SOS
+            </h2>
+
+            <p class="sos-description">
+                Press the button below if you need emergency assistance.
+            </p>
+
+            <div class="sos-button-wrapper">
+
+                <button
+                    class="sos-btn"
+                    onclick="sendSOS()">
+
+                    🚨
+                    <br>
+                    SEND SOS
+
+                </button>
+
+            </div>
+
+            <p id="sosMessage"></p>
+
+        </div>
+
+
+        <!-- =========================
+             SOS HISTORY
+        ========================= -->
+
+        <div class="card">
+
+            <h2>
+                📋 SOS History
+            </h2>
+
+            <div
+                id="sosHistory"
+                class="history-container">
+
+                <p class="empty">
+                    Loading SOS history...
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const API = "http://localhost:5000";
+
+
+        // ==============================
+        // CHECK USER LOGIN
+        // ==============================
+
+        const token =
+            localStorage.getItem("token");
+
+        if (!token) {
+
+            alert("Please login first.");
+
+            window.location.href =
+                "login.html";
+        }
+
+
+        // ==============================
+        // LOAD PROFILE
+        // ==============================
+
+        async function loadProfile() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/api/auth/profile`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${token}`
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                console.log(
+                    "Profile:",
+                    data
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    document.getElementById(
+                        "profileMessage"
+                    ).innerText =
+                        data.message ||
+                        "Unable to load profile.";
+
+                    return;
+                }
+
+
+                const user =
+                    data.user ||
+                    data.profile;
+
+
+                if (!user) {
+
+                    document.getElementById(
+                        "profileMessage"
+                    ).innerText =
+                        "User profile not found.";
+
+                    return;
+                }
+
+
+                document.getElementById(
+                    "userName"
+                ).innerText =
+                    user.name || "-";
+
+
+                document.getElementById(
+                    "userEmail"
+                ).innerText =
+                    user.email || "-";
+
+
+                document.getElementById(
+                    "userPhone"
+                ).innerText =
+                    user.phone || "-";
+
+
+                document.getElementById(
+                    "profileMessage"
+                ).innerText = "";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile Error:",
+                    error
+                );
+
+                document.getElementById(
+                    "profileMessage"
+                ).innerText =
+                    "Unable to connect to server.";
+
+            }
+
+        }
+
+
+        // ==============================
+        // SEND SOS
+        // ==============================
+
+        function sendSOS() {
+
+            const message =
+                document.getElementById(
+                    "sosMessage"
+                );
+
+
+            if (!navigator.geolocation) {
+
+                message.innerText =
+                    "GPS is not supported by your browser.";
+
+                message.style.color =
+                    "#dc2626";
+
+                return;
+            }
+
+
+            message.innerText =
+                "📍 Getting your location...";
+
+            message.style.color =
+                "#2563eb";
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                async function(position) {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+
+                    console.log(
+                        "Latitude:",
+                        latitude
+                    );
+
+                    console.log(
+                        "Longitude:",
+                        longitude
+                    );
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                `${API}/api/sos`,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            `Bearer ${token}`
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            latitude:
+                                                latitude,
+
+                                            longitude:
+                                                longitude,
+
+                                            message:
+                                                "Emergency! I need help."
+                                        })
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        console.log(
+                            "SOS Response:",
+                            data
+                        );
+
+
+                        if (
+                            response.ok &&
+                            data.success
+                        ) {
+
+                            message.innerText =
+                                "🚨 SOS Alert Sent Successfully!";
+
+                            message.style.color =
+                                "#16a34a";
+
+
+                            loadSOSHistory();
+
+                        } else {
+
+                            message.innerText =
+                                data.message ||
+                                "Failed to send SOS.";
+
+                            message.style.color =
+                                "#dc2626";
+                        }
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "SOS Error:",
+                            error
+                        );
+
+                        message.innerText =
+                            "Unable to connect to server.";
+
+                        message.style.color =
+                            "#dc2626";
+                    }
+
+                },
+
+
+                function(error) {
+
+                    console.error(
+                        "Location Error:",
+                        error
+                    );
+
+                    message.innerText =
+                        "⚠️ Please allow location permission.";
+
+                    message.style.color =
+                        "#dc2626";
+                }
+
+            );
+
+        }
+
+
+        // ==============================
+        // LOAD SOS HISTORY
+        // ==============================
+
+        async function loadSOSHistory() {
+
+            const container =
+                document.getElementById(
+                    "sosHistory"
+                );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/api/sos`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${token}`
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "SOS History:",
+                    data
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    container.innerHTML =
+                        `
+                        <p class="error">
+                            ${
+                                data.message ||
+                                "Unable to load SOS history."
+                            }
+                        </p>
+                        `;
+
+                    return;
+                }
+
+
+                const alerts =
+                    data.alerts || [];
+
+
+                if (alerts.length === 0) {
+
+                    container.innerHTML =
+                        `
+                        <p class="empty">
+                            No SOS alerts found.
+                        </p>
+                        `;
+
+                    return;
+                }
+
+
+                container.innerHTML = "";
+
+
+                alerts.forEach(function(alert) {
+
+                    const date =
+                        new Date(
+                            alert.createdAt
+                        ).toLocaleString();
+
+
+                    const status =
+                        alert.status ||
+                        "active";
+
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    let alertClass = "";
+
+                    if (status === "active") {
+                        alertClass = "active-alert";
+                    }
+
+                    else if (status === "accepted") {
+                        alertClass = "accepted-alert";
+                    }
+
+                    else if (status === "declined") {
+                        alertClass = "declined-alert";
+                    }
+
+                    else if (status === "resolved") {
+                        alertClass = "resolved-alert";
+                    }
+
+
+                    div.className =
+                        `alert ${alertClass}`;
+
+
+                    div.innerHTML = `
+
+                        <div class="alert-title">
+
+                            <h3>
+                                🚨 Emergency Alert
+                            </h3>
+
+                            <span class="status ${status}">
+                                ${status.toUpperCase()}
+                            </span>
+
+                        </div>
+
+
+                        <p>
+                            <strong>
+                                Message:
+                            </strong>
+
+                            ${
+                                alert.message ||
+                                "Emergency alert"
+                            }
+                        </p>
+
+
+                        <p>
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${date}
+                        </p>
+
+
+                        <p>
+                            <strong>
+                                Location:
+                            </strong>
+
+                            ${alert.latitude},
+                            ${alert.longitude}
+                        </p>
+
+
+                        <div class="button-row">
+
+                            <button
+                                class="map-btn"
+                                onclick="openMap(
+                                    ${alert.latitude},
+                                    ${alert.longitude}
+                                )">
+
+                                📍 View Location
+
+                            </button>
+
+
+                            ${
+                                status === "active" ||
+                                status === "accepted"
+
+                                ?
+
+                                `
+
+                                <button
+                                    class="resolve-btn"
+                                    onclick="resolveSOS(
+                                        '${alert._id}'
+                                    )">
+
+                                    ✅ Resolve
+
+                                </button>
+
+                                `
+
+                                :
+
+                                ""
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        div
+                    );
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "History Error:",
+                    error
+                );
+
+                container.innerHTML =
+                    `
+                    <p class="error">
+                        Unable to connect to server.
+                    </p>
+                    `;
+            }
+
+        }
+
+
+        // ==============================
+        // RESOLVE SOS
+        // ==============================
+
+        async function resolveSOS(sosId) {
+
+            if (
+                !confirm(
+                    "Are you sure you want to resolve this SOS?"
+                )
+            ) {
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/api/sos/${sosId}/resolve`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${token}`
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Resolve Response:",
+                    data
+                );
+
+
+                if (
+                    response.ok &&
+                    data.success
+                ) {
+
+                    alert(
+                        "SOS resolved successfully."
+                    );
+
+
+                    loadSOSHistory();
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "Unable to resolve SOS."
+                    );
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Resolve Error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to server."
+                );
+            }
+
+        }
+
+
+        // ==============================
+        // GOOGLE MAPS
+        // ==============================
+
+        function openMap(
+            latitude,
+            longitude
+        ) {
+
+            const url =
+                `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+
+            window.open(
+                url,
+                "_blank"
+            );
+
+        }
+
+
+        // ==============================
+        // LOGOUT
+        // ==============================
+
+        function logout() {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // ==============================
+        // INITIAL LOAD
+        // ==============================
+
+        loadProfile();
+
+        loadSOSHistory();
+
+    </script>
+
+</body>
+
+</html>

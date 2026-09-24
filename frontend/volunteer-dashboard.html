@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer Dashboard | Women Safety</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        .header {
+            background: #7f1d1d;
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #7f1d1d;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background: #fee2e2;
+        }
+
+        /* MAIN */
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .card-title {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* PROFILE */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .profile-item span {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .profile-item strong {
+            font-size: 16px;
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .active {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .accepted {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* AVAILABILITY */
+        .availability-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .availability-buttons button {
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .available-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .busy-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .offline-btn {
+            background: #64748b;
+            color: white;
+        }
+
+        .availability-buttons button:hover {
+            opacity: 0.85;
+        }
+
+        #availabilityMessage {
+            margin-top: 12px;
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        /* ALERT GRID */
+        .alert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 18px;
+        }
+
+        .alert-card {
+            border: 1px solid #fecaca;
+            border-left: 5px solid #dc2626;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .alert-header h3 {
+            color: #991b1b;
+            font-size: 17px;
+        }
+
+        .alert-info {
+            margin: 9px 0;
+            line-height: 1.5;
+        }
+
+        .alert-info strong {
+            color: #374151;
+        }
+
+        .map-btn {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 9px 14px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .map-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .accept-btn,
+        .decline-btn {
+            border: none;
+            padding: 10px 14px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .accept-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .decline-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .accept-btn:hover,
+        .decline-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ASSIGNED */
+        .assigned-card {
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #2563eb;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f8fbff;
+            margin-bottom: 15px;
+        }
+
+        .assigned-card h3 {
+            color: #1d4ed8;
+            margin-bottom: 15px;
+        }
+
+        .empty-message {
+            color: #6b7280;
+            padding: 15px 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .welcome h1 {
+                font-size: 24px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .alert-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .accept-btn,
+            .decline-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            🛡️ Women Safety
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h1>Volunteer Dashboard</h1>
+
+            <p>
+                Welcome, Volunteer. Monitor and respond to emergency alerts.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <section class="card">
+
+            <div class="card-title">
+                👤 Volunteer Profile
+            </div>
+
+            <div
+                id="profile"
+                class="profile-grid">
+
+                <p class="empty-message">
+                    Loading profile...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- AVAILABILITY -->
+
+        <section class="card">
+
+            <div class="card-title">
+                🟢 Availability
+            </div>
+
+            <div class="availability-buttons">
+
+                <button
+                    class="available-btn"
+                    onclick="updateAvailability('available')">
+                    Available
+                </button>
+
+                <button
+                    class="busy-btn"
+                    onclick="updateAvailability('busy')">
+                    Busy
+                </button>
+
+                <button
+                    class="offline-btn"
+                    onclick="updateAvailability('offline')">
+                    Offline
+                </button>
+
+            </div>
+
+            <p id="availabilityMessage"></p>
+
+        </section>
+
+
+        <!-- ACTIVE EMERGENCY ALERTS -->
+
+        <section class="card">
+
+            <div class="card-title">
+                🚨 Active Emergency Alerts
+            </div>
+
+            <div
+                id="alerts"
+                class="alert-grid">
+
+                <p class="empty-message">
+                    Loading emergency alerts...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ASSIGNED ALERTS -->
+
+        <section class="card">
+
+            <div class="card-title">
+                📋 My Assigned Alerts
+            </div>
+
+            <div id="assignedAlerts">
+
+                <p class="empty-message">
+                    Loading assigned alerts...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MAIN JAVASCRIPT -->
+
+    <script>
+
+        // ==========================
+        // LOAD VOLUNTEER PROFILE
+        // ==========================
+
+        async function loadProfile() {
+
+            const token =
+                localStorage.getItem("volunteerToken");
+
+            if (!token) {
+
+                alert("Please login first.");
+
+                window.location.href =
+                    "volunteer-login.html";
+
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/volunteers/profile",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                const profile =
+                    document.getElementById("profile");
+
+                if (!data.success) {
+
+                    profile.innerHTML = `
+                        <p class="empty-message">
+                            ${data.message}
+                        </p>
+                    `;
+
+                    return;
+                }
+
+                const volunteer =
+                    data.volunteer;
+
+                const statusClass =
+                    volunteer.status === "approved"
+                        ? "approved"
+                        : "";
+
+                const availabilityClass =
+                    volunteer.availability === "available"
+                        ? "available"
+                        : "";
+
+                profile.innerHTML = `
+
+                    <div class="profile-item">
+                        <span>Name</span>
+                        <strong>${volunteer.name}</strong>
+                    </div>
+
+                    <div class="profile-item">
+                        <span>Email</span>
+                        <strong>${volunteer.email}</strong>
+                    </div>
+
+                    <div class="profile-item">
+                        <span>Phone</span>
+                        <strong>${volunteer.phone}</strong>
+                    </div>
+
+                    <div class="profile-item">
+                        <span>Status</span>
+                        <strong>
+                            <span class="badge ${statusClass}">
+                                ${volunteer.status}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <div class="profile-item">
+                        <span>Availability</span>
+                        <strong>
+                            <span class="badge ${availabilityClass}">
+                                ${volunteer.availability}
+                            </span>
+                        </strong>
+                    </div>
+
+                `;
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById("profile")
+                    .innerHTML = `
+                        <p class="empty-message">
+                            Unable to load profile.
+                        </p>
+                    `;
+            }
+        }
+
+
+        // ==========================
+        // UPDATE AVAILABILITY
+        // ==========================
+
+        async function updateAvailability(status) {
+
+            const token =
+                localStorage.getItem("volunteerToken");
+
+            if (!token) {
+
+                alert("Please login first.");
+
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/volunteers/availability",
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + token
+                            },
+
+                            body: JSON.stringify({
+                                availability: status
+                            })
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                document.getElementById(
+                    "availabilityMessage"
+                ).innerText =
+                    data.message;
+
+                if (data.success) {
+
+                    loadProfile();
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById(
+                    "availabilityMessage"
+                ).innerText =
+                    "Unable to update availability.";
+
+            }
+        }
+
+
+        // ==========================
+        // LOAD ACTIVE SOS ALERTS
+        // ==========================
+
+        async function loadAlerts() {
+
+            const token =
+                localStorage.getItem("volunteerToken");
+
+            if (!token) {
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/volunteers/alerts",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                const alerts =
+                    document.getElementById("alerts");
+
+                if (!data.success) {
+
+                    alerts.innerHTML = `
+                        <p class="empty-message">
+                            ${data.message}
+                        </p>
+                    `;
+
+                    return;
+                }
+
+                if (data.alerts.length === 0) {
+
+                    alerts.innerHTML = `
+                        <p class="empty-message">
+                            No active emergency alerts at the moment.
+                        </p>
+                    `;
+
+                    return;
+                }
+
+                alerts.innerHTML =
+                    data.alerts.map(alert => `
+
+                        <div class="alert-card">
+
+                            <div class="alert-header">
+
+                                <h3>
+                                    🚨 Emergency Alert
+                                </h3>
+
+                                <span class="badge active">
+                                    ${alert.status}
+                                </span>
+
+                            </div>
+
+                            <div class="alert-info">
+                                <strong>Name:</strong>
+                                ${alert.user?.name || "Unknown"}
+                            </div>
+
+                            <div class="alert-info">
+                                <strong>Phone:</strong>
+                                ${alert.user?.phone || "Not available"}
+                            </div>
+
+                            <div class="alert-info">
+                                <strong>Message:</strong>
+                                ${alert.message}
+                            </div>
+
+                            <div class="alert-info">
+                                <strong>Location:</strong>
+                                ${alert.latitude},
+                                ${alert.longitude}
+                            </div>
+
+                            <a
+                                class="map-btn"
+                                href="https://www.google.com/maps?q=${alert.latitude},${alert.longitude}"
+                                target="_blank">
+
+                                📍 View Location
+
+                            </a>
+
+                            <div class="action-buttons">
+
+                                <button
+                                    class="accept-btn"
+                                    onclick="acceptSOS('${alert._id}')">
+
+                                    ✅ Accept SOS
+
+                                </button>
+
+                                <button
+                                    class="decline-btn"
+                                    onclick="declineSOS('${alert._id}')">
+
+                                    ❌ Decline SOS
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `).join("");
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById("alerts")
+                    .innerHTML = `
+                        <p class="empty-message">
+                            Unable to load emergency alerts.
+                        </p>
+                    `;
+            }
+        }
+
+
+        // ==========================
+        // ACCEPT SOS
+        // ==========================
+
+        async function acceptSOS(sosId) {
+
+            const token =
+                localStorage.getItem("volunteerToken");
+
+            try {
+
+                const response =
+                    await fetch(
+                        `http://localhost:5000/api/volunteers/alerts/${sosId}/accept`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!data.success) {
+
+                    alert(data.message);
+
+                    return;
+                }
+
+                alert(
+                    "SOS alert accepted successfully."
+                );
+
+                loadAlerts();
+
+                loadAssignedAlerts();
+
+            } catch (error) {
+
+                console.error(
+                    "Accept SOS Error:",
+                    error
+                );
+
+                alert(
+                    "Unable to accept SOS alert."
+                );
+            }
+        }
+
+
+        // ==========================
+        // DECLINE SOS
+        // ==========================
+
+        async function declineSOS(sosId) {
+
+            const token =
+                localStorage.getItem("volunteerToken");
+
+            try {
+
+                const response =
+                    await fetch(
+                        `http://localhost:5000/api/volunteers/alerts/${sosId}/decline`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!data.success) {
+
+                    alert(data.message);
+
+                    return;
+                }
+
+                alert(
+                    "SOS alert declined successfully."
+                );
+
+                loadAlerts();
+
+            } catch (error) {
+
+                console.error(
+                    "Decline SOS Error:",
+                    error
+                );
+
+                alert(
+                    "Unable to decline SOS alert."
+                );
+            }
+        }
+
+
+        // ==========================
+        // LOGOUT
+        // ==========================
+
+        function logout() {
+
+            localStorage.removeItem(
+                "volunteerToken"
+            );
+
+            window.location.href =
+                "index.html";
+        }
+
+
+        // ==========================
+        // LOAD ASSIGNED ALERTS
+        // ==========================
+
+        async function loadAssignedAlerts() {
+
+            const container =
+                document.getElementById(
+                    "assignedAlerts"
+                );
+
+            const token =
+                localStorage.getItem(
+                    "volunteerToken"
+                );
+
+            if (!token) {
+
+                container.innerHTML = `
+                    <p class="empty-message">
+                        Volunteer login required.
+                    </p>
+                `;
+
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/volunteers/assigned-alerts",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!data.success) {
+
+                    container.innerHTML = `
+                        <p class="empty-message">
+                            ${data.message ||
+                            "Unable to load assigned alerts."}
+                        </p>
+                    `;
+
+                    return;
+                }
+
+                if (data.alerts.length === 0) {
+
+                    container.innerHTML = `
+                        <p class="empty-message">
+                            No assigned SOS alerts.
+                        </p>
+                    `;
+
+                    return;
+                }
+
+                container.innerHTML = "";
+
+                data.alerts.forEach(alert => {
+
+                    const userName =
+                        alert.user?.name ||
+                        "Unknown User";
+
+                    const phone =
+                        alert.user?.phone ||
+                        "Not available";
+
+                    const mapLink =
+                        `https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`;
+
+                    const alertCard =
+                        document.createElement("div");
+
+                    alertCard.className =
+                        "assigned-card";
+
+                    alertCard.innerHTML = `
+
+                        <div class="alert-header">
+
+                            <h3>
+                                🚨 Assigned Emergency
+                            </h3>
+
+                            <span class="badge accepted">
+                                ${alert.status}
+                            </span>
+
+                        </div>
+
+                        <div class="alert-info">
+                            <strong>Name:</strong>
+                            ${userName}
+                        </div>
+
+                        <div class="alert-info">
+                            <strong>Phone:</strong>
+                            ${phone}
+                        </div>
+
+                        <div class="alert-info">
+                            <strong>Message:</strong>
+                            ${alert.message}
+                        </div>
+
+                        <div class="alert-info">
+                            <strong>Location:</strong>
+                            ${alert.latitude},
+                            ${alert.longitude}
+                        </div>
+
+                        <a
+                            class="map-btn"
+                            href="${mapLink}"
+                            target="_blank">
+
+                            📍 View Location
+
+                        </a>
+
+                        <div class="alert-info"
+                             style="margin-top:15px;">
+
+                            <strong>Assigned On:</strong>
+                            ${
+                                new Date(
+                                    alert.createdAt
+                                ).toLocaleString()
+                            }
+
+                        </div>
+
+                    `;
+
+                    container.appendChild(
+                        alertCard
+                    );
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Assigned Alerts Error:",
+                    error
+                );
+
+                container.innerHTML = `
+                    <p class="empty-message">
+                        Unable to connect to server.
+                    </p>
+                `;
+            }
+        }
+
+
+        // ==========================
+        // START DASHBOARD
+        // ==========================
+
+        loadProfile();
+
+        loadAlerts();
+
+        loadAssignedAlerts();
+
+    </script>
+
+</body>
+
+</html>

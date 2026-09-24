@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Women Safety Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .brand h1 {
+            font-size: 21px;
+            margin-bottom: 3px;
+        }
+
+        .brand p {
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .logout-btn {
+            border: none;
+            background: white;
+            color: #991b1b;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid #991b1b;
+        }
+
+        .welcome h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .welcome p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .red-icon {
+            background: #fee2e2;
+        }
+
+        .green-icon {
+            background: #dcfce7;
+        }
+
+        .blue-icon {
+            background: #dbeafe;
+        }
+
+        .stat-info h3 {
+            font-size: 25px;
+            color: #111827;
+        }
+
+        .stat-info p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        /* SECTION */
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title h2 {
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .refresh-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            padding: 9px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .refresh-btn:hover {
+            background: #f9fafb;
+        }
+
+        /* MESSAGE */
+        .message {
+            padding: 14px 16px;
+            background: #f3f4f6;
+            border-radius: 9px;
+            color: #4b5563;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        /* VOLUNTEER GRID */
+        #volunteerList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .volunteer-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+            background: #ffffff;
+            transition: 0.2s;
+        }
+
+        .volunteer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .volunteer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .volunteer-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #fee2e2;
+            color: #991b1b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .volunteer-name h3 {
+            font-size: 17px;
+            color: #111827;
+        }
+
+        .volunteer-name span {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .status {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .details {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 14px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 10px 0;
+            color: #4b5563;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .detail-icon {
+            width: 25px;
+            text-align: center;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .approve-btn,
+        .reject-btn {
+            flex: 1;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .approve-btn {
+            background: #16a34a;
+        }
+
+        .approve-btn:hover {
+            background: #15803d;
+        }
+
+        .reject-btn {
+            background: #dc2626;
+        }
+
+        .reject-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* EMPTY */
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+            padding: 25px 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            #volunteerList {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .brand h1 {
+                font-size: 17px;
+            }
+
+            .container {
+                margin-top: 20px;
+                padding: 0 14px;
+            }
+
+            .section-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .header {
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .logout-btn {
+                padding: 8px 12px;
+            }
+
+            .welcome {
+                padding: 20px;
+            }
+
+            .section {
+                padding: 18px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div>
+                <h1>Women Safety Platform</h1>
+                <p>Administrator Control Panel</p>
+            </div>
+
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <!-- WELCOME -->
+        <section class="welcome">
+
+            <h2>Admin Dashboard</h2>
+
+            <p>
+                Manage volunteer registration requests,
+                approvals and platform support operations.
+            </p>
+
+        </section>
+
+
+        <!-- STATS -->
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon red-icon">
+                    👥
+                </div>
+
+                <div class="stat-info">
+                    <h3 id="pendingCount">0</h3>
+                    <p>Pending Volunteers</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green-icon">
+                    ✅
+                </div>
+
+                <div class="stat-info">
+                    <h3>Approval</h3>
+                    <p>Volunteer Verification</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue-icon">
+                    🛡️
+                </div>
+
+                <div class="stat-info">
+                    <h3>Admin</h3>
+                    <p>Platform Management</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VOLUNTEERS -->
+        <section class="section">
+
+            <div class="section-header">
+
+                <div class="section-title">
+
+                    <span>👥</span>
+
+                    <h2>Pending Volunteer Requests</h2>
+
+                </div>
+
+                <button
+                    class="refresh-btn"
+                    onclick="loadPendingVolunteers()">
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message">
+                Loading pending volunteers...
+            </div>
+
+
+            <div id="volunteerList"></div>
+
+        </section>
+
+
+        <div class="footer">
+            Women Safety & Emergency Assistance Platform
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const API_URL =
+            "http://localhost:5000/api/admin/volunteers";
+
+
+        // LOAD PENDING VOLUNTEERS
+        async function loadPendingVolunteers() {
+
+            const message =
+                document.getElementById("message");
+
+            const volunteerList =
+                document.getElementById("volunteerList");
+
+            const pendingCount =
+                document.getElementById("pendingCount");
+
+
+            message.innerText =
+                "Loading pending volunteers...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/pending`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    message.innerText =
+                        data.message ||
+                        "Failed to load volunteers.";
+
+                    return;
+                }
+
+
+                pendingCount.innerText =
+                    data.volunteers.length;
+
+
+                if (data.volunteers.length === 0) {
+
+                    message.innerText =
+                        "No pending volunteer requests.";
+
+                    volunteerList.innerHTML = `
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                📋
+                            </div>
+
+                            <h3>No Pending Requests</h3>
+
+                            <p>
+                                There are currently no volunteer
+                                registrations waiting for approval.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                message.innerText =
+                    `${data.volunteers.length} pending volunteer(s) found.`;
+
+
+                volunteerList.innerHTML = "";
+
+
+                data.volunteers.forEach(
+                    volunteer => {
+
+                        const card =
+                            document.createElement("div");
+
+
+                        card.className =
+                            "volunteer-card";
+
+
+                        const firstLetter =
+                            volunteer.name
+                                ? volunteer.name
+                                    .charAt(0)
+                                    .toUpperCase()
+                                : "V";
+
+
+                        card.innerHTML = `
+
+                            <div class="volunteer-top">
+
+                                <div class="volunteer-name">
+
+                                    <div class="avatar">
+                                        ${firstLetter}
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            ${volunteer.name}
+                                        </h3>
+
+                                        <span>
+                                            Volunteer Applicant
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="status">
+                                    ${volunteer.status}
+                                </span>
+
+                            </div>
+
+
+                            <div class="details">
+
+                                <div class="detail-row">
+
+                                    <span class="detail-icon">
+                                        📧
+                                    </span>
+
+                                    <strong>Email:</strong>
+
+                                    <span>
+                                        ${volunteer.email}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-icon">
+                                        📱
+                                    </span>
+
+                                    <strong>Phone:</strong>
+
+                                    <span>
+                                        ${volunteer.phone}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="buttons">
+
+                                    <button
+                                        class="approve-btn"
+                                        onclick="approveVolunteer('${volunteer._id}')">
+
+                                        ✅ Approve
+
+                                    </button>
+
+
+                                    <button
+                                        class="reject-btn"
+                                        onclick="rejectVolunteer('${volunteer._id}')">
+
+                                        ❌ Reject
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+
+                        volunteerList.appendChild(card);
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load Volunteers Error:",
+                    error
+                );
+
+
+                pendingCount.innerText = "0";
+
+
+                message.innerText =
+                    "Unable to connect to server. Please make sure the backend is running.";
+
+            }
+
+        }
+
+
+        // APPROVE VOLUNTEER
+        async function approveVolunteer(id) {
+
+            const confirmApprove =
+                confirm(
+                    "Are you sure you want to approve this volunteer?"
+                );
+
+
+            if (!confirmApprove) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}/approve`,
+                        {
+                            method: "PUT"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                alert(
+                    data.message ||
+                    "Volunteer approved successfully."
+                );
+
+
+                loadPendingVolunteers();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Approve Error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to approve volunteer."
+                );
+
+            }
+
+        }
+
+
+        // REJECT VOLUNTEER
+        async function rejectVolunteer(id) {
+
+            const confirmReject =
+                confirm(
+                    "Are you sure you want to reject this volunteer?"
+                );
+
+
+            if (!confirmReject) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}/reject`,
+                        {
+                            method: "PUT"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                alert(
+                    data.message ||
+                    "Volunteer rejected successfully."
+                );
+
+
+                loadPendingVolunteers();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Reject Error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to reject volunteer."
+                );
+
+            }
+
+        }
+
+
+        // LOGOUT
+        function logout() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        // INITIAL LOAD
+        loadPendingVolunteers();
+
+    </script>
+
+</body>
+
+</html>

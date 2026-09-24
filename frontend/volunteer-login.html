@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer Login - Women Safety</title>
+
+</head>
+
+<body>
+
+    <h1>Volunteer Login</h1>
+
+    <form id="loginForm">
+
+        <label>Email</label><br>
+        <input
+            type="email"
+            id="email"
+            required
+        >
+
+        <br><br>
+
+        <label>Password</label><br>
+        <input
+            type="password"
+            id="password"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value;
+
+                const password =
+                    document.getElementById("password").value;
+
+                const message =
+                    document.getElementById("message");
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://localhost:5000/api/volunteers/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email: email,
+                                    password: password
+                                })
+                            }
+                        );
+
+                    const data =
+                        await response.json();
+
+                    if (!data.success) {
+
+                        message.innerText =
+                            data.message;
+
+                        return;
+                    }
+
+                    // Save volunteer JWT token
+                    localStorage.setItem(
+                        "volunteerToken",
+                        data.token
+                    );
+
+                    message.innerText =
+                        "Login successful!";
+
+                    // Open dashboard
+                    setTimeout(function() {
+
+                        window.location.href =
+                            "volunteer-dashboard.html";
+
+                    }, 500);
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    message.innerText =
+                        "Unable to connect to server.";
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>
