@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer Registration | Women Safety</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #7f1d1d;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #7f1d1d;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #991b1b;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login a {
+            color: #7f1d1d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Volunteer Registration</h1>
+
+        <form id="registerForm">
+
+            <label for="name">Name</label>
+            <input
+                type="text"
+                id="name"
+                required
+            >
+
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                required
+            >
+
+            <label for="phone">Phone</label>
+            <input
+                type="tel"
+                id="phone"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                required
+            >
+
+            <button type="submit">
+                Register as Volunteer
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <div class="login">
+            Already registered?
+            <a href="volunteer-login.html">
+                Volunteer Login
+            </a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("registerForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const name =
+                    document.getElementById("name").value;
+
+                const email =
+                    document.getElementById("email").value;
+
+                const phone =
+                    document.getElementById("phone").value;
+
+                const password =
+                    document.getElementById("password").value;
+
+                const message =
+                    document.getElementById("message");
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://localhost:5000/api/volunteers/register",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    phone,
+                                    password
+                                })
+                            }
+                        );
+
+                    const data =
+                        await response.json();
+
+                    if (!data.success) {
+
+                        message.innerText =
+                            data.message;
+
+                        return;
+                    }
+
+                    message.innerText =
+                        "Registration successful! Waiting for admin approval.";
+
+                    document
+                        .getElementById("registerForm")
+                        .reset();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    message.innerText =
+                        "Unable to connect to server.";
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>

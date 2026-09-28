@@ -2,8 +2,11 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Women Safety Dashboard</title>
 
@@ -180,9 +183,11 @@
             font-size: 22px;
             font-weight: bold;
             cursor: pointer;
+
             box-shadow:
                 0 0 0 8px #fff1f2,
                 0 10px 30px rgba(220, 38, 38, 0.35);
+
             transition: 0.25s;
         }
 
@@ -266,7 +271,7 @@
         }
 
         /* =========================
-           STATUS BADGES
+           STATUS
         ========================= */
 
         .status {
@@ -335,6 +340,101 @@
         }
 
         .resolve-btn:hover {
+            background: #15803d;
+        }
+
+        /* =========================
+           SAFETY ZONES
+        ========================= */
+
+        #safetyZoneMessage {
+            margin-bottom: 15px;
+            color: #6b7280;
+            font-weight: bold;
+        }
+
+        .safety-zone {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-left: 5px solid #16a34a;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .safety-zone h3 {
+            color: #166534;
+            margin-bottom: 12px;
+        }
+
+        .safety-zone p {
+            margin: 7px 0;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .safety-zone a {
+            display: inline-block;
+            margin-top: 10px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .safety-zone a:hover {
+            background: #1d4ed8;
+        }
+
+        /* =========================
+           EMERGENCY CONTACTS
+        ========================= */
+
+        #contactMessage {
+            margin-bottom: 15px;
+            color: #6b7280;
+            font-weight: bold;
+        }
+
+        #contactsList {
+            width: 100%;
+        }
+
+        .contact-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-left: 5px solid #2563eb;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .contact-card h3 {
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            margin: 7px 0;
+            color: #4b5563;
+        }
+
+        .call-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 9px 14px;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .call-btn:hover {
             background: #15803d;
         }
 
@@ -417,6 +517,16 @@
             .resolve-btn {
                 width: 100%;
             }
+
+            .safety-zone a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .call-btn {
+                width: 100%;
+                text-align: center;
+            }
         }
 
     </style>
@@ -487,7 +597,9 @@
                     <span
                         id="userName"
                         class="profile-value">
+
                         Loading...
+
                     </span>
 
                 </div>
@@ -502,7 +614,9 @@
                     <span
                         id="userEmail"
                         class="profile-value">
+
                         Loading...
+
                     </span>
 
                 </div>
@@ -517,7 +631,9 @@
                     <span
                         id="userPhone"
                         class="profile-value">
+
                         Loading...
+
                     </span>
 
                 </div>
@@ -584,8 +700,69 @@
 
         </div>
 
+
+        <!-- =========================
+             SAFETY ZONES
+        ========================= -->
+
+        <div class="card">
+
+            <h2>
+                🛡️ Safety Zones
+            </h2>
+
+            <p id="safetyZoneMessage">
+                Loading safety zones...
+            </p>
+
+            <div id="safetyZonesList">
+
+                <p class="empty">
+                    Loading safety zones...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             EMERGENCY CONTACTS
+        ========================= -->
+
+        <div class="card">
+
+            <h2>
+                📞 Emergency Contacts
+            </h2>
+
+            <p id="contactMessage">
+                Loading emergency contacts...
+            </p>
+
+            <div id="contactsList">
+
+                <p class="empty">
+                    Loading contacts...
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
 
+
+    <!-- =========================
+         SAFETY ZONE JAVASCRIPT
+    ========================= -->
+
+    <script src="js/safetyZone.js"></script>
+
+
+    <!-- =========================
+         MAIN JAVASCRIPT
+    ========================= -->
 
     <script>
 
@@ -637,7 +814,6 @@
                     data
                 );
 
-
                 if (
                     !response.ok ||
                     !data.success
@@ -652,11 +828,9 @@
                     return;
                 }
 
-
                 const user =
                     data.user ||
                     data.profile;
-
 
                 if (!user) {
 
@@ -668,29 +842,24 @@
                     return;
                 }
 
-
                 document.getElementById(
                     "userName"
                 ).innerText =
                     user.name || "-";
-
 
                 document.getElementById(
                     "userEmail"
                 ).innerText =
                     user.email || "-";
 
-
                 document.getElementById(
                     "userPhone"
                 ).innerText =
                     user.phone || "-";
 
-
                 document.getElementById(
                     "profileMessage"
                 ).innerText = "";
-
 
             } catch (error) {
 
@@ -703,9 +872,7 @@
                     "profileMessage"
                 ).innerText =
                     "Unable to connect to server.";
-
             }
-
         }
 
 
@@ -720,7 +887,6 @@
                     "sosMessage"
                 );
 
-
             if (!navigator.geolocation) {
 
                 message.innerText =
@@ -732,13 +898,11 @@
                 return;
             }
 
-
             message.innerText =
                 "📍 Getting your location...";
 
             message.style.color =
                 "#2563eb";
-
 
             navigator.geolocation.getCurrentPosition(
 
@@ -750,7 +914,6 @@
                     const longitude =
                         position.coords.longitude;
 
-
                     console.log(
                         "Latitude:",
                         latitude
@@ -760,7 +923,6 @@
                         "Longitude:",
                         longitude
                     );
-
 
                     try {
 
@@ -794,16 +956,13 @@
                                 }
                             );
 
-
                         const data =
                             await response.json();
-
 
                         console.log(
                             "SOS Response:",
                             data
                         );
-
 
                         if (
                             response.ok &&
@@ -816,7 +975,6 @@
                             message.style.color =
                                 "#16a34a";
 
-
                             loadSOSHistory();
 
                         } else {
@@ -828,7 +986,6 @@
                             message.style.color =
                                 "#dc2626";
                         }
-
 
                     } catch (error) {
 
@@ -846,7 +1003,6 @@
 
                 },
 
-
                 function(error) {
 
                     console.error(
@@ -862,7 +1018,6 @@
                 }
 
             );
-
         }
 
 
@@ -876,7 +1031,6 @@
                 document.getElementById(
                     "sosHistory"
                 );
-
 
             try {
 
@@ -893,16 +1047,13 @@
                         }
                     );
 
-
                 const data =
                     await response.json();
-
 
                 console.log(
                     "SOS History:",
                     data
                 );
-
 
                 if (
                     !response.ok ||
@@ -922,10 +1073,8 @@
                     return;
                 }
 
-
                 const alerts =
                     data.alerts || [];
-
 
                 if (alerts.length === 0) {
 
@@ -939,9 +1088,7 @@
                     return;
                 }
 
-
                 container.innerHTML = "";
-
 
                 alerts.forEach(function(alert) {
 
@@ -950,40 +1097,47 @@
                             alert.createdAt
                         ).toLocaleString();
 
-
                     const status =
                         alert.status ||
                         "active";
-
 
                     const div =
                         document.createElement(
                             "div"
                         );
 
-
                     let alertClass = "";
 
                     if (status === "active") {
-                        alertClass = "active-alert";
+
+                        alertClass =
+                            "active-alert";
+
                     }
 
                     else if (status === "accepted") {
-                        alertClass = "accepted-alert";
+
+                        alertClass =
+                            "accepted-alert";
+
                     }
 
                     else if (status === "declined") {
-                        alertClass = "declined-alert";
+
+                        alertClass =
+                            "declined-alert";
+
                     }
 
                     else if (status === "resolved") {
-                        alertClass = "resolved-alert";
-                    }
 
+                        alertClass =
+                            "resolved-alert";
+
+                    }
 
                     div.className =
                         `alert ${alertClass}`;
-
 
                     div.innerHTML = `
 
@@ -1001,6 +1155,7 @@
 
 
                         <p>
+
                             <strong>
                                 Message:
                             </strong>
@@ -1009,25 +1164,30 @@
                                 alert.message ||
                                 "Emergency alert"
                             }
+
                         </p>
 
 
                         <p>
+
                             <strong>
                                 Date:
                             </strong>
 
                             ${date}
+
                         </p>
 
 
                         <p>
+
                             <strong>
                                 Location:
                             </strong>
 
                             ${alert.latitude},
                             ${alert.longitude}
+
                         </p>
 
 
@@ -1074,13 +1234,11 @@
 
                     `;
 
-
                     container.appendChild(
                         div
                     );
 
                 });
-
 
             } catch (error) {
 
@@ -1096,7 +1254,6 @@
                     </p>
                     `;
             }
-
         }
 
 
@@ -1115,7 +1272,6 @@
                 return;
             }
 
-
             try {
 
                 const response =
@@ -1131,16 +1287,13 @@
                         }
                     );
 
-
                 const data =
                     await response.json();
-
 
                 console.log(
                     "Resolve Response:",
                     data
                 );
-
 
                 if (
                     response.ok &&
@@ -1151,7 +1304,6 @@
                         "SOS resolved successfully."
                     );
 
-
                     loadSOSHistory();
 
                 } else {
@@ -1161,7 +1313,6 @@
                         "Unable to resolve SOS."
                     );
                 }
-
 
             } catch (error) {
 
@@ -1174,7 +1325,6 @@
                     "Unable to connect to server."
                 );
             }
-
         }
 
 
@@ -1190,12 +1340,177 @@
             const url =
                 `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-
             window.open(
                 url,
                 "_blank"
             );
+        }
 
+
+        // ==============================
+        // LOAD EMERGENCY CONTACTS
+        // ==============================
+
+        async function loadEmergencyContacts() {
+
+            const message =
+                document.getElementById(
+                    "contactMessage"
+                );
+
+            const list =
+                document.getElementById(
+                    "contactsList"
+                );
+
+            const token =
+                localStorage.getItem("token");
+
+            if (!token) {
+
+                message.innerText =
+                    "Please login first.";
+
+                return;
+            }
+
+            message.innerText =
+                "📞 Loading emergency contacts...";
+
+            list.innerHTML =
+                "<p class='empty'>Loading contacts...</p>";
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/api/contacts`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${token}`
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                console.log(
+                    "Emergency Contacts API:",
+                    data
+                );
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    message.innerText =
+                        data.message ||
+                        "Unable to load contacts.";
+
+                    list.innerHTML =
+                        `
+                        <p class="error">
+                            Unable to load emergency contacts.
+                        </p>
+                        `;
+
+                    return;
+                }
+
+                if (
+                    !data.contacts ||
+                    data.contacts.length === 0
+                ) {
+
+                    message.innerText =
+                        "No emergency contacts found.";
+
+                    list.innerHTML =
+                        `
+                        <p class="empty">
+                            No contacts added yet.
+                        </p>
+                        `;
+
+                    return;
+                }
+
+                message.innerText =
+                    "✅ Emergency contacts loaded successfully!";
+
+                list.innerHTML = "";
+
+                data.contacts.forEach(
+                    function(contact) {
+
+                        const contactElement =
+                            document.createElement(
+                                "div"
+                            );
+
+                        contactElement.className =
+                            "contact-card";
+
+                        contactElement.innerHTML = `
+
+                            <h3>
+                                📞 ${contact.name}
+                            </h3>
+
+                            <p>
+                                <strong>
+                                    Relationship:
+                                </strong>
+
+                                ${contact.relationship}
+                            </p>
+
+                            <p>
+                                <strong>
+                                    Phone:
+                                </strong>
+
+                                ${contact.phone}
+                            </p>
+
+                            <a
+                                class="call-btn"
+                                href="tel:${contact.phone}">
+
+                                📞 Call Contact
+
+                            </a>
+
+                        `;
+
+                        list.appendChild(
+                            contactElement
+                        );
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Emergency Contacts Error:",
+                    error
+                );
+
+                message.innerText =
+                    "❌ Unable to connect to server.";
+
+                list.innerHTML =
+                    `
+                    <p class="error">
+                        Unable to connect to server.
+                    </p>
+                    `;
+            }
         }
 
 
@@ -1209,10 +1524,8 @@
                 "token"
             );
 
-
             window.location.href =
                 "login.html";
-
         }
 
 
@@ -1223,6 +1536,10 @@
         loadProfile();
 
         loadSOSHistory();
+
+        loadSafetyZones();
+
+        loadEmergencyContacts();
 
     </script>
 
